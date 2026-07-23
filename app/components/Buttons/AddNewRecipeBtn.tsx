@@ -8,7 +8,7 @@ export const AddNewRecipeBtn = () => {
             flex items-center gap-1.5 
             rounded-lg 
             text-sm text-white 
-            bg-[#4b5563] hover:bg-[#374151]
+            bg-[#374151] hover:bg-[#4b5563]
             transition-colors 
             cursor-pointer"
         >

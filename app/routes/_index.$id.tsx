@@ -1,8 +1,25 @@
-import { data } from "react-router";
+import { data, Link } from "react-router";
 import type { Route } from "./+types/_index.$id";
+import { FaArrowLeft } from "react-icons/fa6";
+import { HiSlash } from "react-icons/hi2";
+import { Badge } from "~/components/Badges/Badge";
+import { BadgeCookTime } from "~/components/Badges/BadgeCookTime";
+import { BadgeServings } from "~/components/Badges/BadgeServings";
+import { BadgeNumIngredients } from "~/components/Badges/BadgeNumIngredient";
+import { IngredientsBox } from "~/components/Ingredients/IngredientsBox";
+import { BadgePrepTime } from "~/components/Badges/BadgePrepTime";
+import { IngredientsItem } from "~/components/Ingredients/IngredientsItem";
+import { InstructionStep } from "~/components/InstructionStep";
 
 export async function loader({ params }: Route.LoaderArgs) {
-    const recipe = await getRecipeById(params.id);
+    const recipe = {
+        id: '1', category: 'Chicken', title: "Mom's Roast Chicken",
+        image_url: 'https://images.unsplash.com/photo-1604908177520-1f3e5c8b6d4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+        ingredients: [{ name: 'whole chicken', amount: 1.5, unit: 'kg' }, { name: 'garlic cloves', amount: 4, unit: '' }, { name: 'olive oil', amount: 3, unit: 'tbsp' }, { name: 'fresh rosemary', amount: 2, unit: 'tsp' }, { name: 'lemon', amount: 1, unit: '' }],
+        instructions: ['Preheat oven to 200°C.', 'Pat chicken dry and rub all over with olive oil.', 'Mix garlic, rosemary, salt and pepper. Rub under and over the skin.', 'Stuff the cavity with halved lemon.', 'Roast 1 hr 20 min, basting halfway. Rest 15 min before carving.'],
+        notes: 'Best served with roasted potatoes and pan drippings gravy.',
+        servings: 4, prepTime: 15, cookTime: 80,
+    };
 
     if (!recipe) {
         throw data("Not found", { status: 404 });
@@ -18,5 +35,91 @@ export function ErrorBoundary() {
 export default function RecipePage({
     loaderData,
 }: Route.ComponentProps) {
-    return <h1>dummy Page</h1>;
+    return (
+        <div className="max-w-6xl min-h-screen mx-auto pt-7 px-5 pb-12">
+            <section className="mb-4 flex items-center gap-2">
+                <Link to=".." className="w-fit py-1.5 px-3 flex items-center gap-1.5 border border-black/30 rounded-md text-sm hover:bg-gray-100 ">
+                    <FaArrowLeft />
+                    Back
+                </Link>
+                <HiSlash className="text-[20px] font-extralight text-gray-600" />
+                <span className="text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {loaderData?.recipe.title}
+                </span>
+            </section>
+            <section>
+                <h1 className="mb-4 text-2xl font-medium text-gray-900">{loaderData?.recipe.title}</h1>
+
+                {/* Badges info */}
+                <div className="mb-4 flex items-center space-x-4 text-sm text-[#4b5563]">
+                    <Badge category={loaderData?.recipe.category || ""} />
+                    <BadgePrepTime full prepTime={loaderData?.recipe.prepTime} />
+                    <BadgeCookTime full cookTime={loaderData?.recipe.cookTime} />
+                    <BadgeServings full servings={loaderData?.recipe.servings} />
+                    <BadgeNumIngredients numIngredients={loaderData?.recipe.ingredients.length} />
+                    {/* <div className="flex items-center">
+                        <i className="mr-1"><svg className="w-3.5 h-3.5" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="signal" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M576 0c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32zM448 96c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32zM352 224V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32zM192 288c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32zM96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32V416c0-17.7 14.3-32 32-32s32 14.3 32 32z"></path></svg></i>
+                        Easy
+                    </div> */}
+                </div>
+
+                {/* Image Gallery */}
+                <div className="mb-8">
+                    <div className="h-96 mb-4 flex items-center justify-center rounded-xl text-white text-2xl bg-[#d1d5db] overflow-hidden">
+                        <img src={loaderData?.recipe.image_url} alt="image of food"
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
+                    {/* <div className="grid grid-cols-4 gap-4">
+                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Step 1</div>
+                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Step 2</div>
+                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Step 3</div>
+                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Final</div>
+                </div> */}
+                </div>
+            </section>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <div className="lg:col-span-1">
+                    {/* Ingredients */}
+                    <IngredientsBox>
+                        <ul className="border border-black/10 rounded-xl overflow-hidden">
+                            {
+                                loaderData?.recipe.ingredients.map((ingredient, index) => (
+                                    <IngredientsItem className={index < loaderData?.recipe.ingredients.length - 1 ? 'border-b border-black/10' : ''} key={index} name={ingredient.name} amount={ingredient.amount} unit={ingredient.unit} />
+                                ))
+                            }
+                        </ul>
+                    </IngredientsBox>
+                </div>
+                <div className="lg:col-span-2">
+                    {/* Instructions */}
+                    <h3 className="mb-3 text-xl font-medium text-[#111827]">Instructions</h3>
+                    <div className={`${loaderData?.recipe.notes ? 'mb-7' : ''} flex flex-col gap-3.5`}>
+                        {
+                            loaderData?.recipe.instructions.map((step, index) => (
+                                <InstructionStep key={index} step={step} index={index} />
+                            ))
+                        }
+                    </div>
+                    {loaderData?.recipe.notes && (
+                        <div className="mt-12 p-6 rounded-xl border border-[#e5e7eb] bg-[#f9fafb]">
+                            <h4 className="mb-3 flex items-center text-[#111827]">
+                                <i className="mr-2 text-[#6b7280]">
+                                    <svg className="w-4 h-4" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="lightbulb" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M272 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C368 78.8 289.2 0 192 0S16 78.8 16 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0c19.8 27.1 39.7 54.4 49.2 86.2H272zM192 512c44.2 0 80-35.8 80-80V416H112v16c0 44.2 35.8 80 80 80zM112 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"></path></svg>
+                                </i>
+                                Chef's Notes &amp; Tips
+                            </h4>
+                            <p className="text-[#374151]">{loaderData?.recipe.notes}</p>
+                            {/* <ul className="pl-5 space-y-2 list-disc text-[#374151]">
+                                <li>For chewier cookies, slightly underbake them and let them finish cooking on the hot pan</li>
+                                <li>Room temperature ingredients mix better - take eggs and butter out 30 minutes before baking</li>
+                                <li>Don't skip the parchment paper - it prevents sticking and ensures even browning</li>
+                                <li>Store in an airtight container for up to one week, or freeze dough balls for later</li>
+                            </ul> */}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
 }
