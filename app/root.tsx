@@ -9,6 +9,10 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { AddNewRecipeBtn } from "./components/Buttons/AddNewRecipeBtn";
+import { NavItem } from "./components/navbar/NavItem";
+import { NavList } from "./components/navbar/NavList";
+import { SearchBar } from "./components/SearchBar";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,6 +37,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <header className="px-6 py-4 sticky top-0 z-50 border-b border-[#e5e7eb] bg-white">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-8">
+              <div className="text-2xl text-[#111827]">RecipeHub</div>
+              <NavList>
+                <NavItem title="Home" href="/" />
+                <NavItem title="About" href="/about" />
+              </NavList>
+            </div>
+            <SearchBar />
+            <AddNewRecipeBtn />
+          </div>
+        </header>
         {children}
         <ScrollRestoration />
         <Scripts />
