@@ -6,7 +6,7 @@ export const AddNewRecipeBtn = () => {
             to="/new"
             className="px-3.5 py-2 
             flex items-center gap-1.5 
-            rounded-lg 
+            rounded-md
             text-sm text-white 
             bg-[#374151] hover:bg-[#4b5563]
             transition-colors 
