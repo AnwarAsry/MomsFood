@@ -14,8 +14,7 @@ import { Label } from "~/components/Inputs/Label";
 import { SelectInput } from "~/components/Inputs/SelectInput";
 import { TextAreaInput } from "~/components/Inputs/TextAreaInput";
 import { StepCount } from "~/components/StepCount";
-import { Categories, type Category } from "~/models/Categories";
-import { Units, type IngredientField } from "~/models/RecipeForm";
+import { CategoriesInput, Units, type Category, type IngredientField } from "~/models/RecipeForm";
 
 export default function NewEntry() {
     const navigate = useNavigate();
@@ -89,7 +88,7 @@ export default function NewEntry() {
                                             Category *
                                         </Label>
                                         <SelectInput name="category" value={category} onChange={(e) => setCategory(e.target.value as Category)}>
-                                            {Categories.map((c) => (
+                                            {CategoriesInput.map((c) => (
                                                 <option key={c} value={c}>{c}</option>
                                             ))}
                                         </SelectInput>

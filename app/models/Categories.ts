@@ -1,4 +1,5 @@
 export type Category =
+    | "All"
     | "Chicken"
     | "Soup"
     | "Meat"
@@ -6,4 +7,4 @@ export type Category =
     | "Pasta"
     ;
 
-export const Categories: Category[] = ["Chicken", "Soup", "Meat", "Dessert", "Pasta"];
+export const Categories: Category[] = ["All", "Chicken", "Soup", "Meat", "Dessert", "Pasta"];
