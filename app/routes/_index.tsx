@@ -6,6 +6,8 @@ import { RecipeGrid } from "~/components/Recipes/RecipeGrid";
 import { RecipeCard } from "~/components/Recipes/RecipeCard";
 import { Categories, type Category } from "~/models/Categories";
 import { defaultRecipe, type IRecipeCard } from "~/models/Recipe";
+import { getAllRecipes } from "~/actions/Recipes";
+import { data } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
 	return [
@@ -15,9 +17,13 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export async function loader() {
-	// const recipe = await fetchAllRecipes();
+	const recipes = await getAllRecipes();
 
-	return [defaultRecipe];
+	if (!recipes.success) {
+		throw data("Not found", { status: 404 })
+	}
+
+	return recipes.data;
 }
 
 export default function Home({

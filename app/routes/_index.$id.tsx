@@ -10,22 +10,16 @@ import { IngredientsBox } from "~/components/Ingredients/IngredientsBox";
 import { BadgePrepTime } from "~/components/Badges/BadgePrepTime";
 import { IngredientsItem } from "~/components/Ingredients/IngredientsItem";
 import { InstructionStep } from "~/components/InstructionStep";
+import { getRecipeById } from "~/actions/Recipes";
 
 export async function loader({ params }: Route.LoaderArgs) {
-    const recipe = {
-        id: '1', category: 'Chicken', title: "Mom's Roast Chicken",
-        image_url: 'https://images.unsplash.com/photo-1604908177520-1f3e5c8b6d4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-        ingredients: [{ name: 'whole chicken', amount: 1.5, unit: 'kg' }, { name: 'garlic cloves', amount: 4, unit: '' }, { name: 'olive oil', amount: 3, unit: 'tbsp' }, { name: 'fresh rosemary', amount: 2, unit: 'tsp' }, { name: 'lemon', amount: 1, unit: '' }],
-        instructions: ['Preheat oven to 200°C.', 'Pat chicken dry and rub all over with olive oil.', 'Mix garlic, rosemary, salt and pepper. Rub under and over the skin.', 'Stuff the cavity with halved lemon.', 'Roast 1 hr 20 min, basting halfway. Rest 15 min before carving.'],
-        notes: 'Best served with roasted potatoes and pan drippings gravy.',
-        servings: 4, prepTime: 15, cookTime: 80,
-    };
+    const recipe = await getRecipeById(params.id);
 
-    if (!recipe) {
+    if (!recipe.success) {
         throw data("Not found", { status: 404 });
     }
 
-    return { recipe };
+    return recipe.data;
 }
 
 export function ErrorBoundary() {
@@ -44,19 +38,19 @@ export default function RecipePage({
                 </Link>
                 <HiSlash className="text-[20px] font-extralight text-gray-600" />
                 <span className="text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {loaderData?.recipe.title}
+                    {loaderData!.title}
                 </span>
             </section>
             <section>
-                <h1 className="mb-4 text-2xl font-medium text-gray-900">{loaderData?.recipe.title}</h1>
+                <h1 className="mb-4 text-2xl font-medium text-gray-900">{loaderData!.title}</h1>
 
                 {/* Badges info */}
                 <div className="mb-4 flex items-center space-x-4 text-sm text-[#4b5563]">
-                    <Badge category={loaderData?.recipe.category || ""} />
-                    <BadgePrepTime full prepTime={loaderData?.recipe.prepTime} />
-                    <BadgeCookTime full cookTime={loaderData?.recipe.cookTime} />
-                    <BadgeServings full servings={loaderData?.recipe.servings} />
-                    <BadgeNumIngredients numIngredients={loaderData?.recipe.ingredients.length} />
+                    <Badge category={loaderData?.category || ""} />
+                    <BadgePrepTime full prepTime={loaderData!.prepTime} />
+                    <BadgeCookTime full cookTime={loaderData!.cookTime} />
+                    <BadgeServings full servings={loaderData!.servings} />
+                    <BadgeNumIngredients numIngredients={loaderData!.ingredients.length} />
                     {/* <div className="flex items-center">
                         <i className="mr-1"><svg className="w-3.5 h-3.5" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="signal" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M576 0c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32zM448 96c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32zM352 224V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32zM192 288c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32zM96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32V416c0-17.7 14.3-32 32-32s32 14.3 32 32z"></path></svg></i>
                         Easy
@@ -66,7 +60,7 @@ export default function RecipePage({
                 {/* Image Gallery */}
                 <div className="mb-8">
                     <div className="h-96 mb-4 flex items-center justify-center rounded-xl text-white text-2xl bg-[#d1d5db] overflow-hidden">
-                        <img src={loaderData?.recipe.image_url} alt="image of food"
+                        <img src={loaderData!.image_url} alt="image of food"
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -84,8 +78,8 @@ export default function RecipePage({
                     <IngredientsBox>
                         <ul className="border border-black/10 rounded-xl overflow-hidden">
                             {
-                                loaderData?.recipe.ingredients.map((ingredient, index) => (
-                                    <IngredientsItem className={index < loaderData?.recipe.ingredients.length - 1 ? 'border-b border-black/10' : ''} key={index} name={ingredient.name} amount={ingredient.amount} unit={ingredient.unit} />
+                                loaderData!.ingredients.map((ingredient, index) => (
+                                    <IngredientsItem className={index < loaderData!.ingredients.length - 1 ? 'border-b border-black/10' : ''} key={index} ingredient={ingredient} />
                                 ))
                             }
                         </ul>
@@ -94,14 +88,14 @@ export default function RecipePage({
                 <div className="lg:col-span-2">
                     {/* Instructions */}
                     <h3 className="mb-3 text-xl font-medium text-[#111827]">Instructions</h3>
-                    <div className={`${loaderData?.recipe.notes ? 'mb-7' : ''} flex flex-col gap-3.5`}>
+                    <div className={`${loaderData!.notes ? 'mb-7' : ''} flex flex-col gap-3.5`}>
                         {
-                            loaderData?.recipe.instructions.map((step, index) => (
+                            loaderData!.instructions.map((step, index) => (
                                 <InstructionStep key={index} step={step} index={index} />
                             ))
                         }
                     </div>
-                    {loaderData?.recipe.notes && (
+                    {loaderData!.notes && (
                         <div className="mt-12 p-6 rounded-xl border border-[#e5e7eb] bg-[#f9fafb]">
                             <h4 className="mb-3 flex items-center text-[#111827]">
                                 <i className="mr-2 text-[#6b7280]">
@@ -109,7 +103,7 @@ export default function RecipePage({
                                 </i>
                                 Chef's Notes &amp; Tips
                             </h4>
-                            <p className="text-[#374151]">{loaderData?.recipe.notes}</p>
+                            <p className="text-[#374151]">{loaderData!.notes}</p>
                             {/* <ul className="pl-5 space-y-2 list-disc text-[#374151]">
                                 <li>For chewier cookies, slightly underbake them and let them finish cooking on the hot pan</li>
                                 <li>Room temperature ingredients mix better - take eggs and butter out 30 minutes before baking</li>
