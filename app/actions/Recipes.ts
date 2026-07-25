@@ -1,7 +1,17 @@
 import { defaultRecipe, type IRecipe } from "~/models/Recipe";
-import type { ServerActionResponse } from "~/models/response/ServerAction";
+import type { IRecipeForm } from "~/models/RecipeForm";
+import type { ServerAction, ServerActionResponse } from "~/models/response/ServerAction";
 
 // Create Recipe
+export const postRecipe = async (recipe: IRecipeForm): Promise<ServerAction> => {
+    try {
+        // Method to the backend
+
+        return { message: `RECIPE CREATED!`, success: true }
+    } catch (e) {
+        return { message: `FAILED TO CREATE: ${e}`, success: false }
+    }
+}
 
 // Get all Recipes
 export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipe[] | null>> => {

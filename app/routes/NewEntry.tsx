@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
-import { HiSlash } from "react-icons/hi2";
-import { Form, Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { postRecipe } from "~/actions/Recipes";
 import { AddBtn } from "~/components/Buttons/AddBtn";
 import { RemoveBtn } from "~/components/Buttons/RemoveBtn";
 import { SectionContainer } from "~/components/Containers/SectionContainer";
@@ -14,13 +13,14 @@ import { Label } from "~/components/Inputs/Label";
 import { SelectInput } from "~/components/Inputs/SelectInput";
 import { TextAreaInput } from "~/components/Inputs/TextAreaInput";
 import { StepCount } from "~/components/StepCount";
-import { CategoriesInput, Units, type Category, type IngredientField } from "~/models/RecipeForm";
+import { validate } from "~/lib/FormHelpers";
+import { CategoriesInput, Units, type CategoryForm, type IngredientField, type IRecipeForm } from "~/models/RecipeForm";
 
 export default function NewEntry() {
     const navigate = useNavigate();
 
     const [title, setTitle] = useState("");
-    const [category, setCategory] = useState<Category>("Chicken");
+    const [category, setCategory] = useState<CategoryForm>("");
     const [servings, setServings] = useState<string>("");
     const [prepTime, setPrepTime] = useState<string>("");
     const [cookTime, setCookTime] = useState<string>("");
@@ -52,20 +52,49 @@ export default function NewEntry() {
         setInstructions((prev) => prev.filter((_, idx) => idx !== i));
     }
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const validationErrors = validate({ title, category, ingredients, instructions });
+
+        if (Object.keys(validationErrors).length > 0) {
+            return;
+        }
+
+        const payload: IRecipeForm = {
+            title: title.trim(),
+            category,
+            servings,
+            prepTime,
+            cookTime,
+            ingredients: ingredients
+                .filter((ing) => ing.name.trim())
+                .map((ing) => ({
+                    name: ing.name.trim(),
+                    amount: ing.amount.trim(),
+                    unit: ing.unit.trim(),
+                })),
+            instructions: instructions.filter((s) => s.trim()),
+            notes: notes.trim(),
+        };
+
+        await postRecipe(payload);
+
+        setTitle("");
+        setCategory("");
+        setServings("");
+        setPrepTime("");
+        setCookTime("");
+        setIngredients([{ name: "", amount: "", unit: "" }]);
+        setInstructions([""]);
+        setNotes("");
+
+        navigate("/");
+    };
+
     return (
         <main className="max-w-7xl mx-auto px-6 py-8 pb-15">
-            <Form method="post">
-                <section className="mb-4 flex items-center gap-2">
-                    <Link to=".." className="w-fit py-1.5 px-3 flex items-center gap-1.5 border border-black/30 rounded-md text-sm hover:bg-gray-100">
-                        <FaArrowLeft />
-                        Back
-                    </Link>
-                    <HiSlash className="text-[20px] font-extralight text-gray-600" />
-                    <span className="text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">
-                        New Recipe
-                    </span>
-                </section>
-
+            <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-8">
                     {/* Left Column */}
                     <div className="lg:col-span-2">
@@ -87,9 +116,9 @@ export default function NewEntry() {
                                         <Label htmlFor="category">
                                             Category *
                                         </Label>
-                                        <SelectInput name="category" value={category} onChange={(e) => setCategory(e.target.value as Category)}>
+                                        <SelectInput name="category" value={category} onChange={(e) => setCategory(e.target.value as CategoryForm)}>
                                             {CategoriesInput.map((c) => (
-                                                <option key={c} value={c}>{c}</option>
+                                                <option key={c} value={c}>{c || "—"}</option>
                                             ))}
                                         </SelectInput>
                                     </div>
@@ -150,7 +179,7 @@ export default function NewEntry() {
                             {instructions.map((step, i) => (
                                 <div key={i} className="mb-2.5 flex flex-start gap-2.5">
                                     <StepCount step={i + 1} />
-                                    <TextAreaInput placeholder="Describe this step..." value={step} name="notes" onChange={(e) => updateInstruction(i, e.target.value)} />
+                                    <TextAreaInput placeholder="Describe this step..." value={step} name="instructions" onChange={(e) => updateInstruction(i, e.target.value)} />
                                     <RemoveBtn onClick={() => removeInstruction(i)} list={instructions} />
                                 </div>
                             ))}
@@ -210,7 +239,7 @@ export default function NewEntry() {
                         </button>
                     </section>
                 </div>
-            </Form>
+            </form>
         </main>
     );
 }
