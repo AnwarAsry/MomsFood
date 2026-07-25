@@ -4,17 +4,19 @@ export interface IngredientField {
     unit: string;
 }
 
-// export interface IRecipeForm {
-//     category: Category;
-//     title: string;
-//     ingredients: string;
-//     instructions: string;
-//     imageFile: File;
-//     notes: string;
-// }
+export interface IRecipeForm {
+    title: string;
+    category: CategoryForm;
+    servings?: string;
+    prepTime?: string;
+    cookTime?: string;
+    ingredients: IngredientField[]
+    instructions: string[];
+    notes?: string;
+}
 
 export type Unit = "" | "g" | "kg" | "ml" | "L" | "tsp" | "tbsp" | "cup" | "oz" | "lb";
 export const Units: Unit[] = ["", "g", "kg", "ml", "L", "tsp", "tbsp", "cup", "oz", "lb"];
 
-export type Category = "Chicken" | "Soup" | "Meat" | "Dessert" | "Pasta";
-export const CategoriesInput: Category[] = ["Chicken", "Soup", "Meat", "Dessert", "Pasta"];
+export type CategoryForm = "" | "Chicken" | "Soup" | "Meat" | "Dessert" | "Pasta";
+export const CategoriesInput: CategoryForm[] = ["", "Chicken", "Soup", "Meat", "Dessert", "Pasta"];
