@@ -1,30 +1,23 @@
 import { Link } from "react-router"
 import { Badge } from "../Badges/Badge"
-import { FaList } from "react-icons/fa6"
 import { BadgeCookTime } from "../Badges/BadgeCookTime"
 import { BadgeServings } from "../Badges/BadgeServings"
 import { BadgeNumIngredients } from "../Badges/BadgeNumIngredient"
+import type { IRecipeCard } from "~/models/Recipe"
 
-export const RecipeCard = ({ recipe }: {
-    recipe: {
-        id: string,
-        image_url: string,
-        category: string, title: string,
-        ingredients: { name: string, amount: number, unit: string }[],
-        instructions: string[],
-        notes: string,
-        servings: number, prepTime: number, cookTime: number,
-    },
-}) => {
+export const RecipeCard = ({ recipe }: { recipe: IRecipeCard }) => {
     return (
         <div className="w-full max-w-80 border border-black/10 rounded-xl cursor-pointer overflow-hidden transition-border-color duration-120 hover:border-black">
-            <div className="h-30 relative">
+            <div className="h-50 relative">
                 {/* Image */}
-                <img
+                {recipe.image_url ? <img
                     className="w-full h-full object-cover"
                     src={recipe.image_url}
                     alt="Recipe Image"
-                />
+                /> : <div className="h-full flex items-center justify-center bg-slate-400">
+                    <span className="text-5xl font-medium text-black">{recipe.title[0]}</span>
+                </div>
+                }
             </div>
 
             {/* Content */}
