@@ -14,6 +14,7 @@ export const FilterPill = ({ text, active, onClick }: FilterPillProps) => {
                 px-4 py-2 rounded-xl
                 text-sm
                 cursor-pointer
+                select-none
             `}
             onClick={onClick}
         >

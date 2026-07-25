@@ -24,7 +24,7 @@ export default function Home({
 	loaderData
 }: Route.ComponentProps) {
 
-	const [activeFilter, setActiveFilter] = useState<Category>();
+	const [activeFilter, setActiveFilter] = useState<Category>("All");
 
 	const filterData = loaderData! as IRecipeCard[];
 
