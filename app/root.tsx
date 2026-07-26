@@ -1,5 +1,6 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
@@ -12,9 +13,16 @@ import "./app.css";
 import { AddNewRecipeBtn } from "./components/Buttons/AddNewRecipeBtn";
 import { NavItem } from "./components/navbar/NavItem";
 import { NavList } from "./components/navbar/NavList";
-import { SearchBar } from "./components/SearchBar";
+import { SearchBar } from "./components/Search/SearchBar";
+import { getAllRecipes } from "~/actions/Recipes";
+
+export async function loader() {
+  const response = await getAllRecipes();
+  return { recipes: response.data ?? [] };
+}
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", href: "/favicon-128.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -35,12 +43,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <title>MomsFood - Home</title>
       </head>
       <body>
-        <header className="h-18 px-6 py-4 sticky top-0 z-50 border-b border-[#e5e7eb] bg-white">
+        <header className="h-20 px-6 py-4 sticky top-0 z-50 border-b border-[#e5e7eb] bg-white">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              <div className="text-2xl text-[#111827]">RecipeHub</div>
+              <div>
+                <Link to="/">
+                  <img src="/momsfood-logo.svg" alt="logo" className="w-25" />
+                </Link>
+              </div>
               <NavList>
                 <NavItem title="Home" href="/" />
                 <NavItem title="About" href="/about" />
