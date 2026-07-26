@@ -14,7 +14,7 @@ export default function About() {
         {/* Divider */}
         <div className="max-w-140 my-10 mx-auto px-6 flex items-center gap-3.5">
             <div className="h-px flex-1 bg-black/20" />
-            <div className="w-2 h-2 shrink-0 rounded-full bg-[#ba7517]" />
+            <div className="w-2 h-2 shrink-0 rounded-full bg-brand" />
             <div className="h-px flex-1 bg-black/20" />
         </div>
 

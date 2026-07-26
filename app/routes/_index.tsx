@@ -4,10 +4,10 @@ import { Filter } from "~/components/Filter/Filter";
 import { FilterPill } from "~/components/Filter/FilterPill";
 import { RecipeGrid } from "~/components/Recipes/RecipeGrid";
 import { RecipeCard } from "~/components/Recipes/RecipeCard";
-import { Categories, type Category } from "~/models/Categories";
+import { CategoriesFilter, type CategoryFilter } from "~/models/Categories";
 import { type IRecipeCard } from "~/models/Recipe";
 import { getAllRecipes } from "~/actions/Recipes";
-import { data, Link } from "react-router";
+import { data } from "react-router";
 import { AddNewRecipeBtn } from "~/components/Buttons/AddNewRecipeBtn";
 
 export function meta({ }: Route.MetaArgs) {
@@ -31,7 +31,7 @@ export default function Home({
 	loaderData
 }: Route.ComponentProps) {
 
-	const [activeFilter, setActiveFilter] = useState<Category>("All");
+	const [activeFilter, setActiveFilter] = useState<CategoryFilter>("All");
 
 	const filterData = loaderData! as IRecipeCard[];
 
@@ -39,7 +39,7 @@ export default function Home({
 		<section className="max-w-4xl mx-auto mt-10 px-6">
 			<Filter>
 				{
-					Categories.map((key, i) => <FilterPill key={i} text={key} active={activeFilter === key} onClick={() => setActiveFilter(key)} />)
+					CategoriesFilter.map((cat, i) => <FilterPill key={i} text={cat} active={activeFilter === cat} onClick={() => setActiveFilter(cat)} />)
 				}
 			</Filter >
 		</section >

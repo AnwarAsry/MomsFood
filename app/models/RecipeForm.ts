@@ -1,3 +1,5 @@
+import { Categories, type Category } from "./Categories";
+
 export type FormErrors = {
     title?: string;
     category?: string;
@@ -22,8 +24,9 @@ export interface IRecipeForm {
     notes?: string;
 }
 
-export type Unit = "" | "g" | "kg" | "ml" | "L" | "tsp" | "tbsp" | "cup" | "oz" | "lb";
-export const Units: Unit[] = ["", "g", "kg", "ml", "L", "tsp", "tbsp", "cup", "oz", "lb"];
+export const UNITS = ["", "g", "kg", "ml", "L", "tsp", "tbsp", "cup", "oz", "lb"] as const;
+export type Unit = (typeof UNITS)[number];
 
-export type CategoryForm = "" | "Chicken" | "Soup" | "Meat" | "Dessert" | "Pasta";
-export const CategoriesInput: CategoryForm[] = ["", "Chicken", "Soup", "Meat", "Dessert", "Pasta"];
+
+export type CategoryForm = "" | Category;
+export const CategoriesInput: CategoryForm[] = ["", ...Categories];

@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Badge } from "../Badges/Badge";
 
 interface ISearchItemProps {
     to: string;
@@ -18,11 +19,7 @@ export const SearchItem = ({ to, onClick, text, category }: ISearchItemProps) =>
                 <span className="text-sm font-medium text-gray-900">
                     {text}
                 </span>
-                <span
-                    className="px-2.5 py-0.5 rounded-full text-xs font-medium"
-                >
-                    {category}
-                </span>
+                <Badge category={category} />
             </Link>
         </li>
     );
