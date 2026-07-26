@@ -24,8 +24,8 @@ export interface IRecipeForm {
     notes?: string;
 }
 
-export type Unit = "" | "g" | "kg" | "ml" | "L" | "tsp" | "tbsp" | "cup" | "oz" | "lb";
-export const Units: Unit[] = ["", "g", "kg", "ml", "L", "tsp", "tbsp", "cup", "oz", "lb"];
+export const UNITS = ["", "g", "kg", "ml", "L", "tsp", "tbsp", "cup", "oz", "lb"] as const;
+export type Unit = (typeof UNITS)[number];
 
 
 export type CategoryForm = "" | Category;

@@ -15,7 +15,7 @@ import { TextAreaInput } from "~/components/Inputs/TextAreaInput";
 import { StepCount } from "~/components/StepCount";
 import { validate } from "~/lib/FormHelpers";
 import { type Category } from "~/models/Categories";
-import { CategoriesInput, Units, type CategoryForm, type FormErrors, type IngredientField, type IRecipeForm } from "~/models/RecipeForm";
+import { CategoriesInput, UNITS, type CategoryForm, type FormErrors, type IngredientField, type IRecipeForm } from "~/models/RecipeForm";
 
 export default function NewEntry() {
     const navigate = useNavigate();
@@ -175,7 +175,7 @@ export default function NewEntry() {
                                         <Input type="text" placeholder="e.g. garlic cloves" value={ing.name} onChange={(e) => updateIngredient(i, "name", e.target.value)} />
                                         <Input className={hasError && !ing.amount.trim() ? 'ring-red-500 border-red-800' : ''} type="number" placeholder="3" min="0" value={ing.amount} onChange={(e) => updateIngredient(i, "amount", e.target.value)} />
                                         <SelectInput className={hasError && !ing.unit.trim() ? 'border-red-800' : ''} value={ing.unit} onChange={(e) => updateIngredient(i, "unit", e.target.value)}>
-                                            {Units.map((u) => (
+                                            {UNITS.map((u) => (
                                                 <option key={u} value={u}>{u || "—"}</option>
                                             ))}
                                         </SelectInput>
