@@ -1,4 +1,4 @@
-import { defaultRecipe, type IRecipe } from "~/models/Recipe";
+import { type IRecipe } from "~/models/Recipe";
 import type { IRecipeForm } from "~/models/RecipeForm";
 import type { ServerAction, ServerActionResponse } from "~/models/response/ServerAction";
 
