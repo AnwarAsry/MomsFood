@@ -24,8 +24,8 @@ export interface IRecipeCard {
     category: Category;
     title: string;
     image_url: string;
-    servings: number;
-    cookTime: number;
+    servings: string;
+    cookTime: string;
     ingredients: Ingredient[];
 }
 
