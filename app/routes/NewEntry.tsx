@@ -14,10 +14,12 @@ import { SelectInput } from "~/components/Inputs/SelectInput";
 import { TextAreaInput } from "~/components/Inputs/TextAreaInput";
 import { StepCount } from "~/components/StepCount";
 import { validate } from "~/lib/FormHelpers";
-import { CategoriesInput, Units, type CategoryForm, type IngredientField, type IRecipeForm } from "~/models/RecipeForm";
+import { CategoriesInput, Units, type CategoryForm, type FormErrors, type IngredientField, type IRecipeForm } from "~/models/RecipeForm";
 
 export default function NewEntry() {
     const navigate = useNavigate();
+
+    const [errors, setErrors] = useState<FormErrors>({});
 
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState<CategoryForm>("");
@@ -58,8 +60,11 @@ export default function NewEntry() {
         const validationErrors = validate({ title, category, ingredients, instructions });
 
         if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
+
+        setErrors({});
 
         const payload: IRecipeForm = {
             title: title.trim(),
@@ -110,6 +115,9 @@ export default function NewEntry() {
                                         Title *
                                     </Label>
                                     <Input big name="title" type="text" value={title} placeholder="Enter your recipe title..." onChange={(e) => setTitle(e.target.value)} />
+                                    {errors.title && (
+                                        <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">{errors.title}</p>
+                                    )}
                                 </div>
                                 <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5">
                                     <div>
@@ -121,6 +129,9 @@ export default function NewEntry() {
                                                 <option key={c} value={c}>{c || "—"}</option>
                                             ))}
                                         </SelectInput>
+                                        {errors.category && (
+                                            <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">{errors.category}</p>
+                                        )}
                                     </div>
                                     <div>
                                         <Label htmlFor="servings">
@@ -155,18 +166,29 @@ export default function NewEntry() {
                                 <Label htmlFor="amount">Amount</Label>
                                 <Label htmlFor="unit">Unit</Label>
                             </div>
-                            {ingredients.map((ing, i) => (
-                                <div key={i} className="mb-1.5 items-center grid grid-cols-[2fr_72px_96px_28px] gap-1.5">
-                                    <Input type="text" placeholder="e.g. garlic cloves" value={ing.name} onChange={(e) => updateIngredient(i, "name", e.target.value)} />
-                                    <Input type="number" placeholder="3" min="0" value={ing.amount} onChange={(e) => updateIngredient(i, "amount", e.target.value)} />
-                                    <SelectInput value={ing.unit} onChange={(e) => updateIngredient(i, "unit", e.target.value)}>
-                                        {Units.map((u) => (
-                                            <option key={u} value={u}>{u || "—"}</option>
-                                        ))}
-                                    </SelectInput>
-                                    <RemoveBtn onClick={() => removeIngredient(i)} list={ingredients} />
-                                </div>
-                            ))}
+                            {ingredients.map((ing, i) => {
+                                const hasError = Array.isArray(errors.ingredients) && errors.ingredients.includes(i);
+
+                                return (
+                                    <div key={i} className="mb-1.5 items-center grid grid-cols-[2fr_72px_96px_28px] gap-1.5">
+                                        <Input type="text" placeholder="e.g. garlic cloves" value={ing.name} onChange={(e) => updateIngredient(i, "name", e.target.value)} />
+                                        <Input className={hasError && !ing.amount.trim() ? 'ring-red-500 border-red-800' : ''} type="number" placeholder="3" min="0" value={ing.amount} onChange={(e) => updateIngredient(i, "amount", e.target.value)} />
+                                        <SelectInput className={hasError && !ing.unit.trim() ? 'border-red-800' : ''} value={ing.unit} onChange={(e) => updateIngredient(i, "unit", e.target.value)}>
+                                            {Units.map((u) => (
+                                                <option key={u} value={u}>{u || "—"}</option>
+                                            ))}
+                                        </SelectInput>
+                                        <RemoveBtn onClick={() => removeIngredient(i)} list={ingredients} />
+                                    </div>
+                                )
+                            })}
+                            {errors.ingredients && (
+                                <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">
+                                    {typeof errors.ingredients === "string"
+                                        ? errors.ingredients
+                                        : "Every ingredient needs an amount and a unit"}
+                                </p>
+                            )}
                             <AddBtn text="ingredient" onClick={addIngredient} />
                         </SectionContainer>
 
@@ -183,6 +205,9 @@ export default function NewEntry() {
                                     <RemoveBtn onClick={() => removeInstruction(i)} list={instructions} />
                                 </div>
                             ))}
+                            {errors.instructions && (
+                                <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">{errors.instructions}</p>
+                            )}
                             <AddBtn text="step" onClick={addInstruction} />
                         </SectionContainer>
 
