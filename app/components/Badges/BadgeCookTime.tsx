@@ -1,6 +1,6 @@
 import { FaFire } from "react-icons/fa6";
 
-export const BadgeCookTime = ({ cookTime, full }: { cookTime: number, full?: boolean }) => {
+export const BadgeCookTime = ({ cookTime, full }: { cookTime: string, full?: boolean }) => {
 
     if (full) {
         return (

@@ -1,4 +1,4 @@
-export const BadgeServings = ({ servings, full }: { servings: number, full?: boolean }) => {
+export const BadgeServings = ({ servings, full }: { servings: string, full?: boolean }) => {
 
     if (full) {
         return (

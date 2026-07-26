@@ -1,4 +1,4 @@
-export const BadgePrepTime = ({ prepTime, full }: { prepTime: number, full?: boolean }) => {
+export const BadgePrepTime = ({ prepTime, full }: { prepTime: string, full?: boolean }) => {
 
     if (full) {
         return (
