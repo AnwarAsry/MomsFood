@@ -1,0 +1,21 @@
+<svg viewBox="0 0 238 108" xmlns="http://www.w3.org/2000/svg">
+  <title>MomsFood Logo</title>
+
+  <!-- Steam: short, long, short -->
+  <path d="M 33,46 Q 25,40 33,33 Q 41,26 33,20" stroke="#E8730A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M 50,46 Q 41,36 50,26 Q 59,16 50,8"  stroke="#E8730A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M 67,46 Q 59,40 67,33 Q 75,26 67,20" stroke="#E8730A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Pot body (no lid) -->
+  <path d="M 16,47 L 84,47 L 82,99 Q 82,102 79,102 L 21,102 Q 18,102 18,99 Z" fill="#FFF3E0" stroke="#E8730A" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Left handle (line) -->
+  <line x1="3"  y1="67" x2="16" y2="67" stroke="#E8730A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Right handle (line) -->
+  <line x1="84" y1="67" x2="97" y2="67" stroke="#E8730A" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Text -->
+  <text x="110" y="63" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="27" font-weight="700" fill="#C96209" letter-spacing="-0.3">Moms</text>
+  <text x="110" y="93" font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif" font-size="27" font-weight="700" fill="#C96209" letter-spacing="-0.3">Food</text>
+</svg>
