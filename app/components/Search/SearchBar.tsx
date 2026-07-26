@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouteLoaderData } from "react-router";
 import type { IRecipe } from "~/models/Recipe";
-import { SearchItem } from "./Search/SearchItem";
+import { SearchItem } from "./SearchItem";
 
 export const SearchBar = () => {
-    const { recipes } = useRouteLoaderData("root") as { recipes: IRecipe[] };
+    const data = useRouteLoaderData("root") as { recipes: IRecipe[] } | undefined;
+    const recipes = data?.recipes ?? [];
     const [query, setQuery] = useState("");
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
