@@ -8,6 +8,7 @@ import { SectionHeader } from "~/components/Containers/SectionHeader";
 import { SectionText } from "~/components/Containers/SectionText";
 import { SectionTitle } from "~/components/Containers/SectionTitle";
 import { CheckMark } from "~/components/Icons/CheckMark";
+import { LightBulb } from "~/components/Icons/LightBulb";
 import { Input } from "~/components/Inputs/Input";
 import { Label } from "~/components/Inputs/Label";
 import { SelectInput } from "~/components/Inputs/SelectInput";
@@ -228,7 +229,7 @@ export default function NewEntry() {
                     <div className="lg:col-span-1">
                         <section id="recipe-tips" className="p-6 mb-8 border rounded-xl bg-linear-to-br from-green-50 to-blue-50 border-green-200">
                             <div className="mb-4 flex items-center space-x-3">
-                                <svg className="size-5 text-xl text-yellow-500" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="lightbulb" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M272 384c9.6-31.9 29.5-59.1 49.2-86.2l0 0c5.2-7.1 10.4-14.2 15.4-21.4c19.8-28.5 31.4-63 31.4-100.3C368 78.8 289.2 0 192 0S16 78.8 16 176c0 37.3 11.6 71.9 31.4 100.3c5 7.2 10.2 14.3 15.4 21.4l0 0c19.8 27.1 39.7 54.4 49.2 86.2H272zM192 512c44.2 0 80-35.8 80-80V416H112v16c0 44.2 35.8 80 80 80zM112 176c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-61.9 50.1-112 112-112c8.8 0 16 7.2 16 16s-7.2 16-16 16c-44.2 0-80 35.8-80 80z"></path></svg>
+                                <LightBulb />
                                 <h3 className="font-bold text-[#111827]">Pro Tips</h3>
                             </div>
                             <div className="space-y-3 text-sm text-[#4b5563]">
