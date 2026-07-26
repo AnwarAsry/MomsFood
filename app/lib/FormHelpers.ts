@@ -1,11 +1,4 @@
-import type { CategoryForm, IngredientField } from "~/models/RecipeForm";
-
-export type FormErrors = {
-    title?: string;
-    category?: string;
-    ingredients?: string | number[];
-    instructions?: string;
-};
+import type { CategoryForm, FormErrors, IngredientField } from "~/models/RecipeForm";
 
 export const validate = ({
     title,
@@ -27,11 +20,14 @@ export const validate = ({
     if (ingredients.every((ing) => !ing.name.trim())) {
         errors.ingredients = "Add at least one ingredient";
     } else {
-        const incomplete = ingredients.some(
-            (ing) => ing.name.trim() && (!ing.amount.trim() || !ing.unit.trim())
-        );
-        if (incomplete)
-            errors.ingredients = "Every ingredient needs an amount and a unit";
+        const incompleteIndices = ingredients
+            .map((ing, i) =>
+                ing.name.trim() && (!ing.amount.trim() || parseFloat(ing.amount) <= 0 || !ing.unit.trim()) ? i : -1
+            )
+            .filter((i) => i !== -1);
+
+        if (incompleteIndices.length > 0)
+            errors.ingredients = incompleteIndices;
     }
     if (instructions.every((s) => !s.trim()))
         errors.instructions = "Add at least one step";
