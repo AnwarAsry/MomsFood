@@ -14,6 +14,7 @@ import { SelectInput } from "~/components/Inputs/SelectInput";
 import { TextAreaInput } from "~/components/Inputs/TextAreaInput";
 import { StepCount } from "~/components/StepCount";
 import { validate } from "~/lib/FormHelpers";
+import { type Category } from "~/models/Categories";
 import { CategoriesInput, Units, type CategoryForm, type FormErrors, type IngredientField, type IRecipeForm } from "~/models/RecipeForm";
 
 export default function NewEntry() {
@@ -124,7 +125,7 @@ export default function NewEntry() {
                                         <Label htmlFor="category">
                                             Category *
                                         </Label>
-                                        <SelectInput name="category" value={category} onChange={(e) => setCategory(e.target.value as CategoryForm)}>
+                                        <SelectInput name="category" value={category} onChange={(e) => setCategory(e.target.value as Category)}>
                                             {CategoriesInput.map((c) => (
                                                 <option key={c} value={c}>{c || "—"}</option>
                                             ))}
