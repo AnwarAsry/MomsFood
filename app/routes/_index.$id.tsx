@@ -11,6 +11,7 @@ import { BadgePrepTime } from "~/components/Badges/BadgePrepTime";
 import { IngredientsItem } from "~/components/Ingredients/IngredientsItem";
 import { InstructionStep } from "~/components/InstructionStep";
 import { getRecipeById } from "~/actions/Recipes";
+import { NotFound } from "~/components/Status comp/NotFound";
 
 export async function loader({ params }: Route.LoaderArgs) {
     const recipe = await getRecipeById(params.id);
@@ -23,27 +24,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function ErrorBoundary() {
-    return (
-        <div className="min-h-[calc(100vh-72px)] flex items-center justify-center text-center">
-            <div>
-                <h1 className="text-[10rem] font-black text-slate-500 leading-none tracking-tight select-none">
-                    404
-                </h1>
-                <h2 className="mt-2 mb-3 text-2xl font-bold text-gray-900">
-                    Page not found
-                </h2>
-                <p className="max-w-xs mb-6 mx-auto text-sm leading-relaxed text-slate-800">
-                    The page you are looking for doesn't exist or has been moved.
-                </p>
-                <Link
-                    to="/"
-                    className="w-fit px-3.5 py-2 inline-flex items-center gap-1.5 rounded-md text-sm text-white bg-[#374151] hover:bg-[#4b5563] transition-colors cursor-pointer"
-                >
-                    ← Back to recipes
-                </Link>
-            </div>
-        </div>
-    );
+    return <NotFound />;
 }
 
 export default function RecipePage({
