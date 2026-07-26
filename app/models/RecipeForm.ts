@@ -1,3 +1,10 @@
+export type FormErrors = {
+    title?: string;
+    category?: string;
+    ingredients?: string | number[];
+    instructions?: string;
+};
+
 export interface IngredientField {
     name: string;
     amount: string;

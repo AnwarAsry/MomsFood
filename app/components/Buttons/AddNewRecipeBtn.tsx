@@ -4,8 +4,8 @@ export const AddNewRecipeBtn = () => {
     return (
         <Link
             to="/new"
-            className="px-3.5 py-2 
-            flex items-center gap-1.5 
+            className="w-fit px-3.5 py-2 
+            inline-flex items-center gap-1.5 
             rounded-md
             text-sm text-white 
             bg-[#374151] hover:bg-[#4b5563]

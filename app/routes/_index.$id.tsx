@@ -11,6 +11,7 @@ import { BadgePrepTime } from "~/components/Badges/BadgePrepTime";
 import { IngredientsItem } from "~/components/Ingredients/IngredientsItem";
 import { InstructionStep } from "~/components/InstructionStep";
 import { getRecipeById } from "~/actions/Recipes";
+import { NotFound } from "~/components/Status comp/NotFound";
 
 export async function loader({ params }: Route.LoaderArgs) {
     const recipe = await getRecipeById(params.id);
@@ -23,7 +24,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export function ErrorBoundary() {
-    return <h1>Recipe not found</h1>;
+    return <NotFound />;
 }
 
 export default function RecipePage({

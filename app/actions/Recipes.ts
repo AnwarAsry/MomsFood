@@ -18,7 +18,7 @@ export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipe[] | 
     try {
         // Method to the backend
 
-        return { message: "Recipes retrived!", success: true, data: [defaultRecipe] }
+        return { message: "Recipes retrived!", success: true, data: [] }
     } catch (e) {
         return { message: `FAILED TO FETCH RECIPES: ${e}`, success: false, data: null }
     }
@@ -29,7 +29,7 @@ export const getRecipeById = async (id: string): Promise<ServerActionResponse<IR
     try {
         // Method to the backend
 
-        return { message: "Recipe retrived!", success: true, data: defaultRecipe }
+        return { message: "Recipe retrived!", success: true, data: null }
     } catch (e) {
         return { message: `FAILED TO FETCH RECIPE BY ID: ${e}`, success: false, data: null }
     }

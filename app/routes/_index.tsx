@@ -5,9 +5,10 @@ import { FilterPill } from "~/components/Filter/FilterPill";
 import { RecipeGrid } from "~/components/Recipes/RecipeGrid";
 import { RecipeCard } from "~/components/Recipes/RecipeCard";
 import { Categories, type Category } from "~/models/Categories";
-import { defaultRecipe, type IRecipeCard } from "~/models/Recipe";
+import { type IRecipeCard } from "~/models/Recipe";
 import { getAllRecipes } from "~/actions/Recipes";
-import { data } from "react-router";
+import { data, Link } from "react-router";
+import { AddNewRecipeBtn } from "~/components/Buttons/AddNewRecipeBtn";
 
 export function meta({ }: Route.MetaArgs) {
 	return [
@@ -43,11 +44,17 @@ export default function Home({
 			</Filter >
 		</section >
 		<div className="max-w-176 lg:max-w-260 px-6 mx-auto mb-5">
-			<RecipeGrid>
-				{
-					filterData.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)
-				}
-			</RecipeGrid>
+			{filterData.length === 0 ? (
+				<div className="py-16 text-center text-gray-500">
+					<p className="mb-1 font-medium">No recipes yet</p>
+					<p className="mb-4 text-sm text-gray-400">Start building your collection</p>
+					<AddNewRecipeBtn />
+				</div>
+			) : (
+				<RecipeGrid>
+					{filterData.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
+				</RecipeGrid>
+			)}
 		</div>
 	</>;
 }
