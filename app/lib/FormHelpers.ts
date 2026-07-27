@@ -5,16 +5,20 @@ export const validate = ({
     category,
     ingredients,
     instructions,
+    imgUrl
 }: {
     title: string;
     category: CategoryForm;
     ingredients: IngredientField[];
     instructions: string[];
+    imgUrl: string;
 }): FormErrors => {
     const errors: FormErrors = {};
 
     if (!title.trim())
         errors.title = "Title is required";
+    if (!imgUrl.trim())
+        errors.imgUrl = "Image URL is required";
     if (!category)
         errors.category = "Category is required";
     if (ingredients.every((ing) => !ing.name.trim())) {

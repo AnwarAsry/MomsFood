@@ -62,7 +62,7 @@ export default function RecipePage({
                 {/* Image Gallery */}
                 <div className="mb-8">
                     <div className="h-96 mb-4 flex items-center justify-center rounded-xl text-white text-2xl bg-[#d1d5db] overflow-hidden">
-                        <img src={loaderData!.image_url} alt="image of food"
+                        <img src={loaderData!.imgUrl} alt="image of food"
                             className="w-full h-full object-cover"
                         />
                     </div>

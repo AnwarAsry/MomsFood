@@ -5,6 +5,7 @@ export type FormErrors = {
     category?: string;
     ingredients?: string | number[];
     instructions?: string;
+    imgUrl?: string;
 };
 
 export interface IngredientField {
@@ -21,6 +22,7 @@ export interface IRecipeForm {
     cookTime?: string;
     ingredients: IngredientField[]
     instructions: string[];
+    imgUrl: string;
     notes?: string;
 }
 

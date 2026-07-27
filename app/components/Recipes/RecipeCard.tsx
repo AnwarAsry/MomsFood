@@ -13,9 +13,9 @@ export const RecipeCard = ({ recipe }: { recipe: IRecipeCard }) => {
         <div className="w-full max-w-80 border border-black/10 rounded-xl cursor-pointer overflow-hidden transition-border-color duration-120 hover:border-black">
             <div className="h-50 relative">
                 {/* Image */}
-                {recipe.image_url ? <img
+                {recipe.imgUrl ? <img
                     className="w-full h-full object-cover"
-                    src={recipe.image_url}
+                    src={recipe.imgUrl}
                     alt="Recipe Image"
                 /> : <div className="h-full flex items-center justify-center" style={{ background: s.bg, color: s.text }}>
                     <span className="text-5xl font-medium text-black">{recipe.title[0]}</span>
