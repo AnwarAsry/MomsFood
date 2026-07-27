@@ -9,10 +9,12 @@ import { SectionText } from "~/components/Containers/SectionText";
 import { SectionTitle } from "~/components/Containers/SectionTitle";
 import { CheckMark } from "~/components/Icons/CheckMark";
 import { LightBulb } from "~/components/Icons/LightBulb";
+import { ImageUpload } from "~/components/ImageUpload";
 import { Input } from "~/components/Inputs/Input";
 import { Label } from "~/components/Inputs/Label";
 import { SelectInput } from "~/components/Inputs/SelectInput";
 import { TextAreaInput } from "~/components/Inputs/TextAreaInput";
+import { ErrorMsg } from "~/components/Status comp/ErrorMsg";
 import { StepCount } from "~/components/StepCount";
 import { validate } from "~/lib/FormHelpers";
 import { type Category } from "~/models/Categories";
@@ -32,6 +34,7 @@ export default function NewEntry() {
         { name: "", amount: "", unit: "" }
     ]);
     const [instructions, setInstructions] = useState<string[]>([""]);
+    const [imgUrl, setImgUrl] = useState("");
     const [notes, setNotes] = useState<string>("");
 
     const updateIngredient = (i: number, field: keyof IngredientField, value: string) => {
@@ -59,7 +62,7 @@ export default function NewEntry() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const validationErrors = validate({ title, category, ingredients, instructions });
+        const validationErrors = validate({ title, category, ingredients, instructions, imgUrl });
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -70,6 +73,7 @@ export default function NewEntry() {
 
         const payload: IRecipeForm = {
             title: title.trim(),
+            imgUrl: imgUrl.trim(),
             category,
             servings,
             prepTime,
@@ -118,7 +122,7 @@ export default function NewEntry() {
                                     </Label>
                                     <Input big name="title" type="text" value={title} placeholder="Enter your recipe title..." onChange={(e) => setTitle(e.target.value)} />
                                     {errors.title && (
-                                        <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">{errors.title}</p>
+                                        <ErrorMsg text={errors.title} />
                                     )}
                                 </div>
                                 <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-2.5">
@@ -132,7 +136,7 @@ export default function NewEntry() {
                                             ))}
                                         </SelectInput>
                                         {errors.category && (
-                                            <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">{errors.category}</p>
+                                            <ErrorMsg text={errors.category} />
                                         )}
                                     </div>
                                     <div>
@@ -185,11 +189,9 @@ export default function NewEntry() {
                                 )
                             })}
                             {errors.ingredients && (
-                                <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">
-                                    {typeof errors.ingredients === "string"
-                                        ? errors.ingredients
-                                        : "Every ingredient needs an amount and a unit"}
-                                </p>
+                                <ErrorMsg text={typeof errors.ingredients === "string"
+                                    ? errors.ingredients
+                                    : "Every ingredient needs an amount and a unit"} />
                             )}
                             <AddBtn text="ingredient" onClick={addIngredient} />
                         </SectionContainer>
@@ -208,9 +210,19 @@ export default function NewEntry() {
                                 </div>
                             ))}
                             {errors.instructions && (
-                                <p className="mt-1 px-3 py-2 rounded-md text-sm text-red-800 bg-red-100">{errors.instructions}</p>
+                                <ErrorMsg text={errors.instructions} />
                             )}
                             <AddBtn text="step" onClick={addInstruction} />
+                        </SectionContainer>
+
+                        {/* Image Upload */}
+                        <SectionContainer>
+                            <SectionHeader>
+                                <SectionTitle>Visual Content</SectionTitle>
+                                <SectionText>Add photos to make your recipe more appealing</SectionText>
+                            </SectionHeader>
+                            <Label htmlFor="imageUpload">Recipe Image *</Label>
+                            <ImageUpload imgUrl={imgUrl} onChange={setImgUrl} error={errors.imgUrl} />
                         </SectionContainer>
 
                         {/* Chef's notes */}
