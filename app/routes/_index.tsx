@@ -35,6 +35,8 @@ export default function Home({
 
 	const filterData = loaderData! as IRecipeCard[];
 
+	const filteredRecipes = activeFilter === "All" ? filterData : filterData.filter((r) => r.category === activeFilter);
+
 	return <>
 		<section className="max-w-4xl mx-auto mt-10 px-6">
 			<Filter>
@@ -44,11 +46,18 @@ export default function Home({
 			</Filter >
 		</section >
 		<div className="max-w-176 lg:max-w-260 px-6 mx-auto mb-5">
-			{filterData.length === 0 ? (
+			{filteredRecipes.length === 0 ? (
+				// No recipes
 				<div className="py-16 text-center text-gray-500">
 					<p className="mb-1 font-medium">No recipes yet</p>
 					<p className="mb-4 text-sm text-gray-400">Start building your collection</p>
 					<AddNewRecipeBtn />
+				</div>
+			) : filteredRecipes.length === 0 ? (
+				// No recipes of filter
+				<div className="py-16 text-center text-gray-500">
+					<p className="mb-1 font-medium">No {activeFilter} recipes yet</p>
+					<p className="text-sm text-gray-400">Try a different category or add one</p>
 				</div>
 			) : (
 				<RecipeGrid>
