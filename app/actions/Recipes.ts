@@ -6,7 +6,6 @@ import type { ServerAction, ServerActionResponse } from "~/models/response/Serve
 // Create Recipe
 export const postRecipe = async (recipe: IRecipeForm): Promise<ServerAction> => {
     try {
-        // Method to the backend
         const response = await post("/", recipe);
 
         if (!response.success) {
@@ -22,14 +21,11 @@ export const postRecipe = async (recipe: IRecipeForm): Promise<ServerAction> => 
 // Get all Recipes
 export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipeCard[] | null>> => {
     try {
-        // Method to the backend
         const response = await get<ServerActionResponse<IRecipeCard[] | null>>("");
 
         if (!response.success) {
             return { message: `FAILED TO FETCH: ${response.message}`, success: response.success }
         }
-
-        console.log("RECIPES RETRIVED: ", response.data);
 
         return { message: `RECIPES RETRIVED! ${response.message}`, success: response.success, data: response.data }
     } catch (e) {
@@ -40,7 +36,6 @@ export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipeCard[
 // Get Recipe
 export const getRecipeById = async (id: string): Promise<ServerActionResponse<IRecipe | null>> => {
     try {
-        // Method to the backend
         const response = await get<ServerActionResponse<IRecipe | null>>(`/${id}`);
 
         if (!response.success) {

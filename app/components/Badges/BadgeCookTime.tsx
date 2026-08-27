@@ -4,7 +4,7 @@ export const BadgeCookTime = ({ cookTime, full }: { cookTime: string, full?: boo
     return (
         <div className="flex items-center gap-1 text-brand">
             <FaFire />
-            <span className="text-gray-600">{full ? `Cook time: ${cookTime} min` : `${cookTime}`} min</span>
+            <span className="text-gray-600">{full ? `Cook time: ${cookTime}` : `${cookTime}`} min</span>
         </div>
     );
 }
