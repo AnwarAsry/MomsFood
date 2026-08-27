@@ -59,7 +59,7 @@ export default function NewEntry() {
         setInstructions((prev) => prev.filter((_, idx) => idx !== i));
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
         const validationErrors = validate({ title, category, ingredients, instructions, imgUrl });
