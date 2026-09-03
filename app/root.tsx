@@ -14,12 +14,6 @@ import { AddNewRecipeBtn } from "./components/Buttons/AddNewRecipeBtn";
 import { NavItem } from "./components/navbar/NavItem";
 import { NavList } from "./components/navbar/NavList";
 import { SearchBar } from "./components/Search/SearchBar";
-import { getAllRecipes } from "~/actions/Recipes";
-
-export async function loader() {
-  const response = await getAllRecipes();
-  return { recipes: response.data ?? [] };
-}
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon-128.png" },

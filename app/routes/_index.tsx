@@ -9,6 +9,7 @@ import { type IRecipeCard } from "~/models/Recipe";
 import { getAllRecipes } from "~/actions/Recipes";
 import { data } from "react-router";
 import { AddNewRecipeBtn } from "~/components/Buttons/AddNewRecipeBtn";
+import { NotFound } from "~/components/Status comp/NotFound";
 
 export function meta({ }: Route.MetaArgs) {
 	return [
@@ -27,6 +28,10 @@ export async function loader() {
 	return recipes.data;
 }
 
+export function ErrorBoundary() {
+	return <NotFound />;
+}
+
 export default function Home({
 	loaderData
 }: Route.ComponentProps) {
@@ -43,7 +48,7 @@ export default function Home({
 				{
 					CategoriesFilter.map((cat, i) => <FilterPill key={i} text={cat} active={activeFilter === cat} onClick={() => setActiveFilter(cat)} />)
 				}
-			</Filter >
+			</Filter>
 		</section >
 		<div className="max-w-176 lg:max-w-260 px-6 mx-auto mb-5">
 			{filteredRecipes.length === 0 ? (
@@ -53,15 +58,9 @@ export default function Home({
 					<p className="mb-4 text-sm text-gray-400">Start building your collection</p>
 					<AddNewRecipeBtn />
 				</div>
-			) : filteredRecipes.length === 0 ? (
-				// No recipes of filter
-				<div className="py-16 text-center text-gray-500">
-					<p className="mb-1 font-medium">No {activeFilter} recipes yet</p>
-					<p className="text-sm text-gray-400">Try a different category or add one</p>
-				</div>
 			) : (
 				<RecipeGrid>
-					{filterData.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
+					{filteredRecipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
 				</RecipeGrid>
 			)}
 		</div>

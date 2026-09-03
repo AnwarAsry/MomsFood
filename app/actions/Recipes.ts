@@ -1,24 +1,33 @@
-import { type IRecipe } from "~/models/Recipe";
+import { get, post } from "~/lib/ServiceBase";
+import { type IRecipe, type IRecipeCard } from "~/models/Recipe";
 import type { IRecipeForm } from "~/models/RecipeForm";
 import type { ServerAction, ServerActionResponse } from "~/models/response/ServerAction";
 
 // Create Recipe
 export const postRecipe = async (recipe: IRecipeForm): Promise<ServerAction> => {
     try {
-        // Method to the backend
+        const response = await post("", recipe);
 
-        return { message: `RECIPE CREATED!`, success: true }
+        if (!response.success) {
+            return { message: `FAILED TO CREATE: ${response.message}`, success: response.success }
+        }
+
+        return { message: `RECIPE CREATED! ${response.message}`, success: response.success }
     } catch (e) {
         return { message: `FAILED TO CREATE: ${e}`, success: false }
     }
 }
 
 // Get all Recipes
-export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipe[] | null>> => {
+export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipeCard[] | null>> => {
     try {
-        // Method to the backend
+        const response = await get<ServerActionResponse<IRecipeCard[] | null>>("");
 
-        return { message: "Recipes retrived!", success: true, data: [] }
+        if (!response.success) {
+            return { message: `FAILED TO FETCH: ${response.message}`, success: response.success }
+        }
+
+        return { message: `RECIPES RETRIVED! ${response.message}`, success: response.success, data: response.data }
     } catch (e) {
         return { message: `FAILED TO FETCH RECIPES: ${e}`, success: false, data: null }
     }
@@ -27,9 +36,13 @@ export const getAllRecipes = async (): Promise<ServerActionResponse<IRecipe[] | 
 // Get Recipe
 export const getRecipeById = async (id: string): Promise<ServerActionResponse<IRecipe | null>> => {
     try {
-        // Method to the backend
+        const response = await get<ServerActionResponse<IRecipe | null>>(`/${id}`);
 
-        return { message: "Recipe retrived!", success: true, data: null }
+        if (!response.success) {
+            return { message: `FAILED TO FETCH: ${response.message}`, success: response.success }
+        }
+
+        return { message: `RECIPE RETRIEVED! ${response.message}`, success: response.success, data: response.data }
     } catch (e) {
         return { message: `FAILED TO FETCH RECIPE BY ID: ${e}`, success: false, data: null }
     }

@@ -1,15 +1,15 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
 export const AddNewRecipeBtn = () => {
     return (
         <Link
             to="/new"
-            className="w-fit px-3.5 py-2 
-            inline-flex items-center gap-1.5 
+            className="w-fit px-3.5 py-2
+            inline-flex items-center gap-1.5
             rounded-md
-            text-sm text-white 
+            text-sm text-white
             bg-brand hover:bg-brand-dark
-            transition-colors 
+            transition-colors
             cursor-pointer"
         >
             <svg className="h-4" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">

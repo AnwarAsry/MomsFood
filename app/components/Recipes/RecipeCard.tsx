@@ -37,7 +37,7 @@ export const RecipeCard = ({ recipe }: { recipe: IRecipeCard }) => {
                 <div className="flex gap-4 text-xs text-[#6b7280]">
                     <BadgeCookTime cookTime={recipe.cookTime} />
                     <BadgeServings servings={recipe.servings} />
-                    <BadgeNumIngredients numIngredients={recipe.ingredients.length} />
+                    <BadgeNumIngredients numIngredients={recipe.numIngredients} />
                 </div>
             </div>
         </div>
