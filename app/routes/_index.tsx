@@ -48,7 +48,7 @@ export default function Home({
 				{
 					CategoriesFilter.map((cat, i) => <FilterPill key={i} text={cat} active={activeFilter === cat} onClick={() => setActiveFilter(cat)} />)
 				}
-			</Filter >
+			</Filter>
 		</section >
 		<div className="max-w-176 lg:max-w-260 px-6 mx-auto mb-5">
 			{filteredRecipes.length === 0 ? (
@@ -60,7 +60,7 @@ export default function Home({
 				</div>
 			) : (
 				<RecipeGrid>
-					{filterData.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
+					{filteredRecipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}
 				</RecipeGrid>
 			)}
 		</div>
