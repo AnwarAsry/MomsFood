@@ -6,7 +6,7 @@ import type { ServerAction, ServerActionResponse } from "~/models/response/Serve
 // Create Recipe
 export const postRecipe = async (recipe: IRecipeForm): Promise<ServerAction> => {
     try {
-        const response = await post("/", recipe);
+        const response = await post("", recipe);
 
         if (!response.success) {
             return { message: `FAILED TO CREATE: ${response.message}`, success: response.success }
