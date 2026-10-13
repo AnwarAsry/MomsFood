@@ -30,7 +30,7 @@ export const RecipeCard = ({ recipe }: { recipe: IRecipeCard }) => {
                     <Badge category={recipe.category} />
                 </div>
                 {/* Title */}
-                <Link to={`/${recipe.id}`} className="hover:underline">
+                <Link to={`/recipe/${recipe.id}`} className="hover:underline">
                     <h3 className="mb-2.5 text-lg font-medium text-[#111827]">{recipe.title}</h3>
                 </Link>
                 {/* Short info */}
