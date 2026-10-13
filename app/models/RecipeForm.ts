@@ -17,9 +17,9 @@ export interface IngredientField {
 export interface IRecipeForm {
     title: string;
     category: CategoryForm;
-    servings?: string;
-    prepTime?: string;
-    cookTime?: string;
+    servings?: number;
+    prepTime?: number;
+    cookTime?: number;
     ingredients: IngredientField[]
     instructions: string[];
     imgUrl: string;

@@ -13,9 +13,9 @@ export interface IRecipe {
     imgUrl: string;
     ingredients: Ingredient[];
     instructions: string[];
-    servings: string;
-    cookTime: string;
-    prepTime: string;
+    servings?: number;
+    cookTime?: number;
+    prepTime?: number;
     notes: string;
 }
 
@@ -24,7 +24,7 @@ export interface IRecipeCard {
     category: Category;
     title: string;
     imgUrl: string;
-    servings: string;
-    cookTime: string;
+    servings?: number;
+    cookTime?: number;
     numIngredients: number;
 }

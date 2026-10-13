@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Route } from "./+types/_index";
+import type { Route } from "./+types/Home";
 import { Filter } from "~/components/Filter/Filter";
 import { FilterPill } from "~/components/Filter/FilterPill";
 import { RecipeGrid } from "~/components/Recipes/RecipeGrid";
@@ -9,12 +9,11 @@ import { type IRecipeCard } from "~/models/Recipe";
 import { getAllRecipes } from "~/actions/Recipes";
 import { data } from "react-router";
 import { AddNewRecipeBtn } from "~/components/Buttons/AddNewRecipeBtn";
-import { NotFound } from "~/components/Status comp/NotFound";
 
 export function meta({ }: Route.MetaArgs) {
 	return [
-		{ title: "New React Router App" },
-		{ name: "description", content: "Welcome to React Router!" },
+		{ title: "Moms Food - Home" },
+		{ name: "description", content: "Home page for Moms Food" },
 	];
 }
 
@@ -26,10 +25,6 @@ export async function loader() {
 	}
 
 	return recipes.data;
-}
-
-export function ErrorBoundary() {
-	return <NotFound />;
 }
 
 export default function Home({
@@ -51,12 +46,16 @@ export default function Home({
 			</Filter>
 		</section >
 		<div className="max-w-176 lg:max-w-260 px-6 mx-auto mb-5">
-			{filteredRecipes.length === 0 ? (
+			{filterData.length === 0 ? (
 				// No recipes
 				<div className="py-16 text-center text-gray-500">
 					<p className="mb-1 font-medium">No recipes yet</p>
 					<p className="mb-4 text-sm text-gray-400">Start building your collection</p>
 					<AddNewRecipeBtn />
+				</div>
+			) : filteredRecipes.length === 0 ? (
+				<div className="py-16 text-center text-gray-500">
+					<p className="font-medium">No {activeFilter} recipes found</p>
 				</div>
 			) : (
 				<RecipeGrid>

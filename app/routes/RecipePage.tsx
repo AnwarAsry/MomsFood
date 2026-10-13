@@ -1,5 +1,5 @@
 import { data, Link } from "react-router";
-import type { Route } from "./+types/_index.$id";
+import type { Route } from "./+types/RecipePage";
 import { FaArrowLeft } from "react-icons/fa6";
 import { HiSlash } from "react-icons/hi2";
 import { Badge } from "~/components/Badges/Badge";
@@ -11,7 +11,6 @@ import { BadgePrepTime } from "~/components/Badges/BadgePrepTime";
 import { IngredientsItem } from "~/components/Ingredients/IngredientsItem";
 import { InstructionStep } from "~/components/InstructionStep";
 import { getRecipeById } from "~/actions/Recipes";
-import { NotFound } from "~/components/Status comp/NotFound";
 import { LightBulb } from "~/components/Icons/LightBulb";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -22,10 +21,6 @@ export async function loader({ params }: Route.LoaderArgs) {
     }
 
     return recipe.data;
-}
-
-export function ErrorBoundary() {
-    return <NotFound />;
 }
 
 export default function RecipePage({
@@ -49,9 +44,9 @@ export default function RecipePage({
                 {/* Badges info */}
                 <div className="mb-4 flex items-center space-x-4 text-sm text-[#4b5563]">
                     <Badge category={loaderData?.category || ""} />
-                    <BadgePrepTime full prepTime={loaderData!.prepTime} />
-                    <BadgeCookTime full cookTime={loaderData!.cookTime} />
-                    <BadgeServings full servings={loaderData!.servings} />
+                    {loaderData?.prepTime !== undefined && <BadgePrepTime full prepTime={loaderData.prepTime} />}
+                    {loaderData?.cookTime !== undefined && <BadgeCookTime full cookTime={loaderData.cookTime} />}
+                    {loaderData?.servings !== undefined && <BadgeServings full servings={loaderData.servings} />}
                     <BadgeNumIngredients numIngredients={loaderData!.ingredients.length} />
                     {/* <div className="flex items-center">
                         <i className="mr-1"><svg className="w-3.5 h-3.5" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="signal" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M576 0c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32zM448 96c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32zM352 224V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32zM192 288c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32zM96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32V416c0-17.7 14.3-32 32-32s32 14.3 32 32z"></path></svg></i>
