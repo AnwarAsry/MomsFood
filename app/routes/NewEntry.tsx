@@ -75,9 +75,9 @@ export default function NewEntry() {
             title: title.trim(),
             imgUrl: imgUrl.trim(),
             category,
-            servings,
-            prepTime,
-            cookTime,
+            servings: servings ? parseInt(servings) : undefined,
+            prepTime: prepTime ? parseInt(prepTime) : undefined,
+            cookTime: cookTime ? parseInt(cookTime) : undefined,
             ingredients: ingredients
                 .filter((ing) => ing.name.trim())
                 .map((ing) => ({
