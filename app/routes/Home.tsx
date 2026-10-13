@@ -54,6 +54,7 @@ export default function Home({
 					<AddNewRecipeBtn />
 				</div>
 			) : filteredRecipes.length === 0 ? (
+				// No recipes for the selected filter
 				<div className="py-16 text-center text-gray-500">
 					<p className="font-medium">No {activeFilter} recipes found</p>
 				</div>
