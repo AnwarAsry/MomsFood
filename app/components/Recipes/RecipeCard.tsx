@@ -5,41 +5,38 @@ import { BadgeServings } from "../Badges/BadgeServings"
 import { BadgeNumIngredients } from "../Badges/BadgeNumIngredient"
 import type { IRecipeCard } from "~/models/Recipe"
 import { getCategoryStyle } from "~/models/Categories"
+import { Card, CardAction, CardContent, CardHeader, CardTitle } from "../ui/card"
 
 export const RecipeCard = ({ recipe }: { recipe: IRecipeCard }) => {
     const s = getCategoryStyle(recipe.category);
 
     return (
-        <div className="w-full max-w-80 border border-black/10 rounded-xl cursor-pointer overflow-hidden transition-border-color duration-120 hover:border-black">
-            <div className="h-50 relative">
-                {/* Image */}
-                {recipe.imgUrl ? <img
-                    className="w-full h-full object-cover"
-                    src={recipe.imgUrl}
-                    alt="Recipe Image"
-                /> : <div className="h-full flex items-center justify-center" style={{ background: s.bg, color: s.text }}>
-                    <span className="text-5xl font-medium text-black">{recipe.title[0]}</span>
-                </div>
-                }
+        <Card size="sm" className="w-full max-w-80 pt-0 relative">
+            <div className="z-30 absolute inset-0 flex items-center justify-center aspect-video" style={{ background: s.bg, color: s.text }}>
+                <span className="text-5xl font-medium">{recipe.title[0]}</span>
             </div>
-
-            {/* Content */}
-            <div className="pt-3 px-3.5 pb-3.5">
-                {/* Category */}
-                <div className="mb-2">
+            <img
+                className="z-20 w-full object-cover aspect-video"
+                src={recipe.imgUrl}
+                alt="Recipe Image"
+            />
+            <CardHeader>
+                <CardAction>
                     <Badge category={recipe.category} />
-                </div>
-                {/* Title */}
+                </CardAction>
                 <Link to={`/recipe/${recipe.id}`} className="hover:underline">
-                    <h3 className="mb-2.5 text-lg font-medium text-[#111827]">{recipe.title}</h3>
+                    <CardTitle className="text-lg! font-medium!">
+                        {recipe.title}
+                    </CardTitle>
                 </Link>
-                {/* Short info */}
+            </CardHeader>
+            <CardContent>
                 <div className="flex gap-4 text-xs text-[#6b7280]">
-                    <BadgeCookTime cookTime={recipe.cookTime} />
-                    <BadgeServings servings={recipe.servings} />
                     <BadgeNumIngredients numIngredients={recipe.numIngredients} />
+                    {recipe.cookTime && <BadgeCookTime cookTime={recipe.cookTime} />}
+                    {recipe.servings && <BadgeServings servings={recipe.servings} />}
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     )
 }
