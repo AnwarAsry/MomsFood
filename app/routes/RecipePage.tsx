@@ -12,6 +12,14 @@ import { IngredientsItem } from "~/components/Ingredients/IngredientsItem";
 import { InstructionStep } from "~/components/InstructionStep";
 import { getRecipeById } from "~/actions/Recipes";
 import { LightBulb } from "~/components/Icons/LightBulb";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb"
 
 export async function loader({ params }: Route.LoaderArgs) {
     const recipe = await getRecipeById(params.id);
@@ -28,16 +36,18 @@ export default function RecipePage({
 }: Route.ComponentProps) {
     return (
         <div className="max-w-6xl min-h-screen mx-auto pt-7 px-5 pb-12">
-            <section className="mb-4 flex items-center gap-2">
-                <Link to=".." className="w-fit py-1.5 px-3 flex items-center gap-1.5 border border-black/30 rounded-md text-sm hover:bg-gray-100 ">
-                    <FaArrowLeft />
-                    Back
-                </Link>
-                <HiSlash className="text-[20px] font-extralight text-gray-600" />
-                <span className="text-sm text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {loaderData!.title}
-                </span>
-            </section>
+            <Breadcrumb className="mb-4">
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink render={<Link to="/" />} >Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>{loaderData!.title}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+
             <section>
                 <h1 className="mb-4 text-2xl font-medium text-gray-900">{loaderData!.title}</h1>
 
