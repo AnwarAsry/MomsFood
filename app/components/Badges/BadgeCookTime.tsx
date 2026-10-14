@@ -2,7 +2,7 @@ import { FaFire } from "react-icons/fa6";
 
 export const BadgeCookTime = ({ cookTime, full }: { cookTime: number, full?: boolean }) => {
     return (
-        <div className="flex items-center gap-1 text-brand">
+        <div className="flex items-center gap-1 text-orange-600">
             <FaFire />
             <span className="text-gray-600">{full ? `Cook time: ${cookTime}` : `${cookTime}`} min</span>
         </div>

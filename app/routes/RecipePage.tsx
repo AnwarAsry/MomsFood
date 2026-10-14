@@ -1,7 +1,5 @@
 import { data, Link } from "react-router";
 import type { Route } from "./+types/RecipePage";
-import { FaArrowLeft } from "react-icons/fa6";
-import { HiSlash } from "react-icons/hi2";
 import { Badge } from "~/components/Badges/Badge";
 import { BadgeCookTime } from "~/components/Badges/BadgeCookTime";
 import { BadgeServings } from "~/components/Badges/BadgeServings";
@@ -20,6 +18,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "~/components/ui/breadcrumb"
+import type { IRecipe } from "~/models/Recipe";
 
 export async function loader({ params }: Route.LoaderArgs) {
     const recipe = await getRecipeById(params.id);
@@ -34,59 +33,51 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function RecipePage({
     loaderData,
 }: Route.ComponentProps) {
+    const recipe = loaderData as IRecipe;
+
     return (
         <div className="max-w-6xl min-h-screen mx-auto pt-7 px-5 pb-12">
             <Breadcrumb className="mb-4">
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink render={<Link to="/" />} >Home</BreadcrumbLink>
+                        <BreadcrumbLink render={<Link to="/" />}>Home</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>{loaderData!.title}</BreadcrumbPage>
+                        <BreadcrumbPage>{recipe.title}</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
 
             <section>
-                <h1 className="mb-4 text-2xl font-medium text-gray-900">{loaderData!.title}</h1>
+                <h1 className="mb-4 text-2xl font-medium text-gray-900">{recipe.title}</h1>
 
                 {/* Badges info */}
                 <div className="mb-4 flex items-center space-x-4 text-sm text-[#4b5563]">
-                    <Badge category={loaderData?.category || ""} />
-                    {loaderData?.prepTime !== undefined && <BadgePrepTime full prepTime={loaderData.prepTime} />}
-                    {loaderData?.cookTime !== undefined && <BadgeCookTime full cookTime={loaderData.cookTime} />}
-                    {loaderData?.servings !== undefined && <BadgeServings full servings={loaderData.servings} />}
-                    <BadgeNumIngredients numIngredients={loaderData!.ingredients.length} />
-                    {/* <div className="flex items-center">
-                        <i className="mr-1"><svg className="w-3.5 h-3.5" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="signal" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M576 0c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V32c0-17.7 14.3-32 32-32zM448 96c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V128c0-17.7 14.3-32 32-32zM352 224V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V224c0-17.7 14.3-32 32-32s32 14.3 32 32zM192 288c17.7 0 32 14.3 32 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V320c0-17.7 14.3-32 32-32zM96 416v64c0 17.7-14.3 32-32 32s-32-14.3-32-32V416c0-17.7 14.3-32 32-32s32 14.3 32 32z"></path></svg></i>
-                        Easy
-                    </div> */}
+                    <Badge category={recipe.category || ""} />
+                    <BadgeNumIngredients numIngredients={recipe.ingredients.length} />
+                    {recipe.servings !== undefined && <BadgeServings full servings={recipe.servings} />}
+                    {recipe.prepTime !== undefined && <BadgePrepTime full prepTime={recipe.prepTime} />}
+                    {recipe.cookTime !== undefined && <BadgeCookTime full cookTime={recipe.cookTime} />}
                 </div>
 
                 {/* Image Gallery */}
-                <div className="mb-8">
-                    <div className="h-96 mb-4 flex items-center justify-center rounded-xl text-white text-2xl bg-[#d1d5db] overflow-hidden">
-                        <img src={loaderData!.imgUrl} alt="image of food"
+                {recipe.imgUrl && (
+                    <div className="h-96 mb-8 rounded-xl overflow-hidden">
+                        <img src={recipe.imgUrl} alt="image of food"
                             className="w-full h-full object-cover"
                         />
                     </div>
-                    {/* <div className="grid grid-cols-4 gap-4">
-                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Step 1</div>
-                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Step 2</div>
-                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Step 3</div>
-                    <div className="h-24 bg-[#d1d5db] rounded-lg flex items-center justify-center text-white text-sm">Final</div>
-                </div> */}
-                </div>
+                )}
             </section>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <div className="lg:col-span-1">
                     {/* Ingredients */}
                     <IngredientsBox>
-                        <ul className="border border-black/10 rounded-xl overflow-hidden">
+                        <ul className="flex flex-col gap-2 overflow-hidden">
                             {
-                                loaderData!.ingredients.map((ingredient, index) => (
-                                    <IngredientsItem className={index < loaderData!.ingredients.length - 1 ? 'border-b border-black/10' : ''} key={index} ingredient={ingredient} />
+                                recipe.ingredients.map((ingredient, index) => (
+                                    <IngredientsItem key={index} ingredient={ingredient} />
                                 ))
                             }
                         </ul>
@@ -94,30 +85,24 @@ export default function RecipePage({
                 </div>
                 <div className="lg:col-span-2">
                     {/* Instructions */}
-                    <h3 className="mb-3 text-xl font-medium text-[#111827]">Instructions</h3>
-                    <div className={`${loaderData!.notes ? 'mb-7' : ''} flex flex-col gap-3.5`}>
-                        {
-                            loaderData!.instructions.map((step, index) => (
-                                <InstructionStep key={index} step={step} index={index} />
-                            ))
-                        }
-                    </div>
-                    {loaderData!.notes && (
-                        <div className="mt-12 p-6 rounded-xl border border-[#e5e7eb] bg-[#f9fafb]">
+                    <section>
+                        <h3 className="mb-3 text-xl font-medium text-[#111827]">Instructions</h3>
+                        <div className="flex flex-col gap-3.5">
+                            {
+                                recipe.instructions.map((instruction, index) => (
+                                    <InstructionStep key={index} instruction={instruction} step={index} />
+                                ))
+                            }
+                        </div>
+                    </section>
+                    {recipe.notes && (
+                        <section className="mt-12 p-6 rounded-xl border border-[#e5e7eb] bg-[#f9fafb]">
                             <h4 className="mb-3 flex items-center text-[#111827]">
-                                <i className="mr-2">
-                                    <LightBulb />
-                                </i>
+                                <LightBulb className="mr-2" />
                                 Chef's Notes &amp; Tips
                             </h4>
-                            <p className="text-[#374151]">{loaderData!.notes}</p>
-                            {/* <ul className="pl-5 space-y-2 list-disc text-[#374151]">
-                                <li>For chewier cookies, slightly underbake them and let them finish cooking on the hot pan</li>
-                                <li>Room temperature ingredients mix better - take eggs and butter out 30 minutes before baking</li>
-                                <li>Don't skip the parchment paper - it prevents sticking and ensures even browning</li>
-                                <li>Store in an airtight container for up to one week, or freeze dough balls for later</li>
-                            </ul> */}
-                        </div>
+                            <p className="text-[#374151]">{recipe.notes}</p>
+                        </section>
                     )}
                 </div>
             </div>
