@@ -7,11 +7,9 @@ import { RecipeCard } from "~/components/Recipes/RecipeCard";
 import { CategoriesFilter, type CategoryFilter } from "~/models/Categories";
 import { type IRecipeCard } from "~/models/Recipe";
 import { getAllRecipes } from "~/actions/Recipes";
-import { data, Link } from "react-router";
+import { data } from "react-router";
 import { AddNewRecipeBtn } from "~/components/Buttons/AddNewRecipeBtn";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "~/components/ui/empty";
-import { Button } from "~/components/ui/button";
-import { FaPlus } from "react-icons/fa6";
 
 export function meta({ }: Route.MetaArgs) {
 	return [

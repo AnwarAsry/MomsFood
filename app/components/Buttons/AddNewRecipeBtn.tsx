@@ -7,7 +7,7 @@ export const AddNewRecipeBtn = () => {
     return (
         <Button render={<Link to="/new" />} className="cursor-pointer">
             <FaPlus />
-            Add Recipe
+            New Recipe
         </Button>
     )
 }
