@@ -16,7 +16,7 @@ export interface IRecipe {
     servings?: number;
     cookTime?: number;
     prepTime?: number;
-    notes: string;
+    notes?: string;
 }
 
 export interface IRecipeCard {
