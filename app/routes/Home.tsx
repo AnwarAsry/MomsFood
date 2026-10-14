@@ -9,6 +9,7 @@ import { type IRecipeCard } from "~/models/Recipe";
 import { getAllRecipes } from "~/actions/Recipes";
 import { data } from "react-router";
 import { AddNewRecipeBtn } from "~/components/Buttons/AddNewRecipeBtn";
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "~/components/ui/empty";
 
 export function meta({ }: Route.MetaArgs) {
 	return [
@@ -48,16 +49,22 @@ export default function Home({
 		<div className="max-w-176 lg:max-w-260 px-6 mx-auto mb-5">
 			{filterData.length === 0 ? (
 				// No recipes
-				<div className="py-16 text-center text-gray-500">
-					<p className="mb-1 font-medium">No recipes yet</p>
-					<p className="mb-4 text-sm text-gray-400">Start building your collection</p>
-					<AddNewRecipeBtn />
-				</div>
+				<Empty>
+					<EmptyHeader>
+						<EmptyTitle>No recipes yet</EmptyTitle>
+						<EmptyDescription>Start building your collection</EmptyDescription>
+					</EmptyHeader>
+					<EmptyContent>
+						<AddNewRecipeBtn />
+					</EmptyContent>
+				</Empty>
 			) : filteredRecipes.length === 0 ? (
 				// No recipes for the selected filter
-				<div className="py-16 text-center text-gray-500">
-					<p className="font-medium">No {activeFilter} recipes found</p>
-				</div>
+				<Empty>
+					<EmptyHeader>
+						<EmptyDescription>No {activeFilter} recipes found</EmptyDescription>
+					</EmptyHeader>
+				</Empty>
 			) : (
 				<RecipeGrid>
 					{filteredRecipes.map(recipe => <RecipeCard key={recipe.id} recipe={recipe} />)}

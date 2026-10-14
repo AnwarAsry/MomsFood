@@ -9,9 +9,9 @@ export const FilterPill = ({ text, active, onClick }: FilterPillProps) => {
         <span
             className={`
                 ${active ?
-                    "bg-brand hover:bg-brand-dark text-white" :
-                    "border border-[#d1d5db] hover:bg-brand-light bg-white text-[#374151]"}
-                px-4 py-2 rounded-xl
+                    "bg-orange-600 text-white" :
+                    "border border-[#d1d5db] hover:bg-orange-100 bg-white text-[#374151]"}
+                px-3 py-1 rounded-md
                 text-sm
                 cursor-pointer
                 select-none
