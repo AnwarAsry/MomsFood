@@ -6,7 +6,7 @@ import { Button } from "../ui/button"
 export const AddNewRecipeBtn = () => {
     return (
         <Button render={<Link to="/new" />} className="cursor-pointer" nativeButton={false}>
-            <FaPlus />
+            <FaPlus className="size-3" />
             New Recipe
         </Button>
     )
