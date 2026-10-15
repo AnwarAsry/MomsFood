@@ -8,7 +8,7 @@ interface IIngredientsItemProps {
 export const IngredientsItem = ({ ingredient }: IIngredientsItemProps) => {
     return (
         <li>
-            <Label htmlFor={ingredient.name} className="py-2 px-3 flex items-center border rounded-md border-black/10 hover:bg-orange-100 cursor-pointer peer-checked:line-through">
+            <Label htmlFor={ingredient.name} className="py-2 px-3 flex items-center border rounded-md border-black/10 bg-white hover:bg-orange-100 cursor-pointer peer-checked:line-through">
                 <input id={ingredient.name} type="checkbox" className="w-5 h-5 mr-3 rounded text-[#4b5563] cursor-pointer peer" />
                 <p
                     className="w-full relative flex justify-between after:content-[''] after:absolute after:left-0 after:top-1/2
