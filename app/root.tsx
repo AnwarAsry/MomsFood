@@ -11,9 +11,9 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { AddNewRecipeBtn } from "./components/Buttons/AddNewRecipeBtn";
-import { NavItem } from "./components/navbar/NavItem";
-import { NavList } from "./components/navbar/NavList";
 import { SearchBar } from "./components/Search/SearchBar";
+import { Nav } from "./components/Nav";
+import { getAllRecipes } from "./actions/Recipes";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", href: "/favicon-128.png" },
@@ -28,6 +28,16 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+export async function loader() {
+  const response = await getAllRecipes();
+
+  if (!response.success) {
+    throw new Response(response.message, { status: 502 });
+  }
+
+  return { recipes: response.data ?? [] };
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -48,10 +58,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <img src="/momsfood-logo.svg" alt="logo" className="w-25" />
                 </Link>
               </div>
-              <NavList>
-                <NavItem title="Home" href="/" />
-                <NavItem title="About" href="/about" />
-              </NavList>
+              <Nav />
             </div>
             <SearchBar />
             <AddNewRecipeBtn />
