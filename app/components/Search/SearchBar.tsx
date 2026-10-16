@@ -4,12 +4,13 @@ import type { IRecipe } from "~/models/Recipe";
 import { SearchItem } from "./SearchItem";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
+import type { loader } from "~/root";
 
 export const SearchBar = () => {
-    const data = useRouteLoaderData("root") as { recipes: IRecipe[] } | undefined;
+    const data = useRouteLoaderData<typeof loader>("root");
     const recipes = data?.recipes ?? [];
-    const [query, setQuery] = useState("");
-    const [open, setOpen] = useState(false);
+    const [query, setQuery] = useState<string>("");
+    const [hasFocused, setHasFocused] = useState<boolean>(false);
     const ref = useRef<HTMLDivElement>(null);
 
     const results = query.trim()
@@ -20,14 +21,12 @@ export const SearchBar = () => {
             .slice(0, 6)
         : [];
 
-    useEffect(() => {
-        setOpen(query.trim().length > 0);
-    }, [query]);
+    const open = hasFocused && query.trim().length > 0;
 
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
             if (ref.current && !ref.current.contains(e.target as Node)) {
-                setOpen(false);
+                setHasFocused(false);
             }
         };
         document.addEventListener("mousedown", handleClick);
@@ -35,7 +34,7 @@ export const SearchBar = () => {
     }, []);
 
     const handleSelect = () => {
-        setOpen(false);
+        setHasFocused(false);
         setQuery("");
     };
 
@@ -48,6 +47,7 @@ export const SearchBar = () => {
                     value={query}
                     placeholder="Search..."
                     onChange={(e) => setQuery(e.target.value)}
+                    onFocus={() => setHasFocused(true)}
                     aria-label="Search recipes"
                     aria-expanded={open}
                     aria-autocomplete="list"
@@ -65,7 +65,7 @@ export const SearchBar = () => {
                     ) : (
                         <ul>
                             {
-                                results.map((recipe) => <SearchItem key={recipe.id} to={`/${recipe.id}`} text={recipe.title} category={recipe.category} onClick={handleSelect} />)
+                                results.map((recipe) => <SearchItem key={recipe.id} to={`/recipe/${recipe.id}`} text={recipe.title} category={recipe.category} onClick={handleSelect} />)
                             }
                         </ul>
                     )}

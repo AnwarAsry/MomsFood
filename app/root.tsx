@@ -30,7 +30,13 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export async function loader() {
-  return { recipes: await getAllRecipes() }
+  const response = await getAllRecipes();
+
+  if (!response.success) {
+    throw new Response(response.message, { status: 502 });
+  }
+
+  return { recipes: response.data ?? [] };
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
