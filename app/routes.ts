@@ -5,5 +5,6 @@ export default [
     route("new", "./routes/NewEntry.tsx"),
     route("about", "./routes/About.tsx"),
     route("recipe/:id", "./routes/RecipePage.tsx"),
+    route("search", "./routes/SearchResults.tsx"),
     route("*", "./routes/NotFound.tsx"),
 ] satisfies RouteConfig;

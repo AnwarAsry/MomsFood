@@ -47,3 +47,19 @@ export const getRecipeById = async (id: string): Promise<ServerActionResponse<IR
         return { message: `FAILED TO FETCH RECIPE BY ID: ${e}`, success: false, data: null }
     }
 }
+
+export const searchRecipes = async (query: string): Promise<ServerActionResponse<IRecipeCard[] | null>> => {
+    try {
+        const response = await get<ServerActionResponse<IRecipeCard[] | null>>(
+            `/search?q=${encodeURIComponent(query)}`
+        );
+
+        if (!response.success) {
+            return { message: `FAILED TO SEARCH: ${response.message}`, success: false, data: null };
+        }
+
+        return { message: "SEARCH RESULTS", success: true, data: response.data };
+    } catch (e) {
+        return { message: `FAILED TO SEARCH: ${e}`, success: false, data: null };
+    }
+};
